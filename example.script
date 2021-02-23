@@ -37,6 +37,12 @@ local function baap()
 
 end
 
+function final(self)
+
+	brofiler.show_longest_frames()
+
+end
+
 function update(self, dt)
 
 	
