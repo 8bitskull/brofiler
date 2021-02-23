@@ -7,8 +7,6 @@ M.frame_log = {}
 
 function M.frame_init()
     
-    
-
     if M.total_time > 0 then
 
         local num = #M.frame_log+1
@@ -18,7 +16,7 @@ function M.frame_init()
         print("Tracked segments took a total time of " .. math.ceil(M.total_time * 10000) / 10000 .. "s to execute.")
         for segment, t in pairs(M.segments) do
             print(segment .. " took " .. math.ceil(t.total_time * 10000) / 10000 .. "s (" .. math.ceil(t.total_time / M.total_time * 1000) / 10 .. "%), called " .. t.num_calls .. " times")
-            table.insert(M.frame_log[num].segments, {id = segment, time = t.total_time})
+            table.insert(M.frame_log[num].segments, {id = segment, time = t.total_time, calls = t.num_calls})
         end
         print("--END BROFILER--")
 
@@ -72,7 +70,7 @@ local function sort(t, comp)
     return rtn
 end
 
-function M.show_longest_frames(num)
+function M.show_longest_frames(num, clear_frames)
     
     num = num or 3
 
@@ -90,6 +88,10 @@ function M.show_longest_frames(num)
         end
         print(i .. suffix .. " longest frame: ")
         pprint(sorted[i])
+    end
+
+    if clear_frames then
+        M.frame_log = {}
     end
 end
 
